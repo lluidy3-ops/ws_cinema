@@ -20,7 +20,7 @@ function loadVideo(url) {
         // Adicionamos 'origin' para satisfazer validações básicas de API.
         display.innerHTML = `
             <iframe 
-                src="https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&controls=0&disablekb=1&rel=0&iv_load_policy=3&modestbranding=1&loop=1&playlist=${youtubeId}&origin=https://www.youtube.com" 
+                src="https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&controls=0&disablekb=1&rel=0&iv_load_policy=3&modestbranding=1&loop=1&playlist=${youtubeId}&enablejsapi=1&origin=https://www.youtube.com" 
                 width="100%" 
                 height="100%" 
                 frameborder="0" 
