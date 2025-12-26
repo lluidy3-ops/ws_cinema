@@ -96,3 +96,19 @@ function extractTwitchChannel(url) {
     const match = url.match(regExp);
     return match ? match[1] : null;
 }
+
+// CONTROLE EXTERNO (PAUSE/RESUME)
+window.videoControl = function (action) {
+    var frames = document.getElementsByTagName('iframe');
+    for (var i = 0; i < frames.length; i++) {
+        try {
+            console.log("Executando comando videoControl: " + action);
+            frames[i].contentWindow.postMessage(JSON.stringify({
+                "event": "command",
+                "func": action
+            }), '*');
+        } catch (e) {
+            console.error("Erro no videoControl: " + e);
+        }
+    }
+}
