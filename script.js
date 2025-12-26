@@ -2,7 +2,43 @@ document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
     const initialUrl = urlParams.get('url');
     if (initialUrl) loadVideo(initialUrl);
+
+    // Verifica volume inicial pela hash
+    checkHashVolume();
 });
+
+// --- DETECTOR DE MUDANÇA DE HASH (VOLUME) ---
+window.addEventListener("hashchange", function () {
+    checkHashVolume();
+});
+
+function checkHashVolume() {
+    // Lê o que está depois do # (ex: #vol=50)
+    var hash = window.location.hash.substring(1);
+    if (hash.startsWith('vol=')) {
+        var volPercent = parseInt(hash.split('=')[1]);
+        setVolume(volPercent);
+    }
+}
+
+function setVolume(volPercent) {
+    // 1. Vídeo nativo
+    var vid = document.querySelector('video');
+    if (vid) vid.volume = volPercent / 100;
+
+    // 2. YouTube / Twitch API
+    var frames = document.getElementsByTagName('iframe');
+    for (var i = 0; i < frames.length; i++) {
+        try {
+            // YouTube
+            frames[i].contentWindow.postMessage(JSON.stringify({
+                "event": "command",
+                "func": "setVolume",
+                "args": [volPercent]
+            }), '*');
+        } catch (e) { }
+    }
+}
 
 function loadVideo(url) {
     const display = document.getElementById('player-wrapper');
@@ -13,11 +49,8 @@ function loadVideo(url) {
     const vimeoId = extractVimeoId(url);
     const twitchChannel = extractTwitchChannel(url);
 
-    // --- YOUTUBE (MODO DESBLOQUEIO) ---
-    // --- YOUTUBE (MODO NO-COOKIE - BURLA ERRO 153) ---
+    // --- YOUTUBE NO-COOKIE ---
     if (youtubeId) {
-        // Usamos o domínio 'youtube-nocookie.com' que é menos restritivo com embeds bloqueados.
-        // Adicionamos 'origin' para satisfazer validações básicas de API.
         display.innerHTML = `
             <iframe 
                 src="https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&controls=0&disablekb=1&rel=0&iv_load_policy=3&modestbranding=1&loop=1&playlist=${youtubeId}&enablejsapi=1&origin=https://www.youtube.com" 
@@ -28,19 +61,8 @@ function loadVideo(url) {
                 style="background: black;"
             ></iframe>`;
     }
-    // --- VIMEO ---
-    else if (vimeoId) {
-        display.innerHTML = `
-            <iframe 
-                src="https://player.vimeo.com/video/${vimeoId}?autoplay=1&muted=0&loop=1&autopause=0&background=1" 
-                width="100%" height="100%" frameborder="0" 
-                allow="autoplay; fullscreen; picture-in-picture" 
-                allowfullscreen
-            ></iframe>`;
-    }
     // --- TWITCH ---
     else if (twitchChannel) {
-        // Correção Twitch: parent=localhost é o padrão para FiveM
         display.innerHTML = `
             <iframe 
                 src="https://player.twitch.tv/?channel=${twitchChannel}&parent=localhost&autoplay=true&muted=false" 
@@ -48,48 +70,14 @@ function loadVideo(url) {
                 allowfullscreen
             ></iframe>`;
     }
-    // --- MP4 / OUTROS ---
+    // --- MP4 ---
     else {
         display.innerHTML = `
             <video autoplay loop style="width:100%; height:100%; object-fit:cover;">
-                <source src="${url}" type="video/mp4">
+            <source src="${url}" type="video/mp4">
             </video>`;
     }
 }
-
-// --- COMUNICAÇÃO COM FIVEM (DUI MESSAGE) ---
-window.addEventListener('message', function (event) {
-    var data = event.data;
-
-    // Se a mensagem for para mudar volume
-    if (data.type === 'setVolume') {
-        var volPercent = data.volume; // 0 a 100
-
-        // --- DEBUG VISUAL ---
-        document.body.style.border = "10px solid red";
-        setTimeout(function () { document.body.style.border = "none"; }, 200);
-
-        // 1. Tenta mudar volume de vídeo nativo (MP4)
-        var vid = document.querySelector('video');
-        if (vid) vid.volume = volPercent / 100;
-
-        // 2. Tenta mudar volume do YouTube / Twitch via API
-        var frames = document.getElementsByTagName('iframe');
-        for (var i = 0; i < frames.length; i++) {
-            try {
-                // YouTube API
-                frames[i].contentWindow.postMessage(JSON.stringify({
-                    "event": "command",
-                    "func": "setVolume",
-                    "args": [volPercent]
-                }), '*');
-
-                // Twitch API (eles usam setVolume(0.5))
-                // Nota: Twitch embed pode ter restrições, mas tentamos mesmo assim
-            } catch (e) { }
-        }
-    }
-});
 
 function extractYouTubeId(url) {
     if (!url) return null;
@@ -97,11 +85,8 @@ function extractYouTubeId(url) {
     const match = url.match(regExp);
     return (match && match[2].length === 11) ? match[2] : null;
 }
-function extractVimeoId(url) {
-    if (!url) return null;
-    const regExp = /vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)/;
-    const match = url.match(regExp);
-    return match ? match[1] : null;
+function extractVimeoId(url) { // Mantido por compatibilidade
+    return null;
 }
 function extractTwitchChannel(url) {
     if (!url) return null;
