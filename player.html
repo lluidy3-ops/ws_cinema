@@ -29,6 +29,9 @@
         var urlParam = params.get('url');
 
         if (urlParam) {
+            // Decodifica URL
+            urlParam = decodeURIComponent(urlParam);
+
             // Se for link completo (youtube.com/watch?v=ID)
             if (urlParam.includes('v=')) {
                 videoId = urlParam.split('v=')[1].split('&')[0];

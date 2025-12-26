@@ -2,6 +2,23 @@
 var resourceName = "ws_cinema"; // Fallback
 try { resourceName = GetParentResourceName(); } catch (e) { }
 
+function updateBadge(screen, isActive) {
+    const el = $(`#badge-${screen}`);
+    if (isActive) {
+        el.text("ONLINE").css({
+            "background": "rgba(0, 255, 128, 0.2)",
+            "color": "#00ff80",
+            "border": "1px solid rgba(0, 255, 128, 0.3)"
+        });
+    } else {
+        el.text("OFFLINE").css({
+            "background": "rgba(255, 255, 255, 0.1)",
+            "color": "rgba(255, 255, 255, 0.5)",
+            "border": "none"
+        });
+    }
+}
+
 $(document).ready(function () {
     window.currentScreen = "Cinema"; // Padrão
 
@@ -35,23 +52,6 @@ $(document).ready(function () {
         }
     });
 
-    function updateBadge(screen, isActive) {
-        const el = $(`#badge-${screen}`);
-        if (isActive) {
-            el.text("ONLINE").css({
-                "background": "rgba(0, 255, 128, 0.2)",
-                "color": "#00ff80",
-                "border": "1px solid rgba(0, 255, 128, 0.3)"
-            });
-        } else {
-            el.text("OFFLINE").css({
-                "background": "rgba(255, 255, 255, 0.1)",
-                "color": "rgba(255, 255, 255, 0.5)",
-                "border": "none"
-            });
-        }
-    }
-
     document.onkeyup = function (data) {
         if (data.which == 27) { // ESC
             closePanel();
@@ -77,8 +77,12 @@ function action(type) {
     const url = $("#video-url").val();
     const screen = window.currentScreen || "Cinema";
 
-    // Feedback visual simples
+    // Validação para play
     if (type === 'play') {
+        if (!url || url.trim() === "") {
+            alert("Digite uma URL de vídeo válida!");
+            return;
+        }
         $(".btn-play").css("transform", "scale(0.95)");
         setTimeout(() => $(".btn-play").css("transform", ""), 100);
         // Atualiza badge para ONLINE
