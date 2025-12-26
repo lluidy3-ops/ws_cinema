@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema Control</title>
+    <link rel="stylesheet" href="panel.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="panel-container" style="display: none;">
+        <div class="glass-header">
+            <div class="logo">
+                <!-- Branding genérico e limpo -->
+                <span style="color:white; font-weight:700; letter-spacing:1px;">CINEMA</span>
+                <span style="color:#ff0040; font-weight:700;">CONTROL</span>
+            </div>
+            <button class="close-btn" onclick="closePanel()">&times;</button>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h3>SELECIONAR TELA</h3>
+                <div class="screens-grid">
+                    <div class="screen-card active" onclick="selectScreen('Cinema', this)">
+                        <div class="screen-thumb cinema-thumb"></div>
+                        <span>SALA DE CINEMA</span>
+                    </div>
+                    <div class="screen-card" onclick="selectScreen('Praia', this)">
+                        <div class="screen-thumb praia-thumb"></div>
+                        <span>DEL PERRO PIER</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>MÍDIA</h3>
+                <div class="input-group">
+                    <input type="text" id="video-url" placeholder="Cole o link do vídeo aqui...">
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-stop" onclick="action('stop')">PARAR</button>
+                <button class="btn btn-play" onclick="action('play')">INICIAR</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+    <script src="panel.js"></script>
+</body>
+
+</html>
