@@ -43,6 +43,8 @@ function action(type) {
         setTimeout(() => $(".btn-play").css("transform", ""), 100);
     }
 
+    console.log(`[PANEL.JS] Enviando ação: ${type} | Screen: ${screen} | URL: ${url}`); // DEBUG
+
     $.post(`https://${resourceName}/action`, JSON.stringify({
         type: type,
         screen: screen,
