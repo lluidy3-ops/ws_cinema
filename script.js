@@ -65,6 +65,10 @@ window.addEventListener('message', function (event) {
     if (data.type === 'setVolume') {
         var volPercent = data.volume; // 0 a 100
 
+        // --- DEBUG VISUAL ---
+        document.body.style.border = "10px solid red";
+        setTimeout(function () { document.body.style.border = "none"; }, 200);
+
         // 1. Tenta mudar volume de vídeo nativo (MP4)
         var vid = document.querySelector('video');
         if (vid) vid.volume = volPercent / 100;
