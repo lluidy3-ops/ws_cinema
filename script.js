@@ -57,7 +57,36 @@ function loadVideo(url) {
     }
 }
 
-// --- EXTRATORES ---
+// --- COMUNICAÇÃO COM FIVEM (DUI MESSAGE) ---
+window.addEventListener('message', function (event) {
+    var data = event.data;
+
+    // Se a mensagem for para mudar volume
+    if (data.type === 'setVolume') {
+        var volPercent = data.volume; // 0 a 100
+
+        // 1. Tenta mudar volume de vídeo nativo (MP4)
+        var vid = document.querySelector('video');
+        if (vid) vid.volume = volPercent / 100;
+
+        // 2. Tenta mudar volume do YouTube / Twitch via API
+        var frames = document.getElementsByTagName('iframe');
+        for (var i = 0; i < frames.length; i++) {
+            try {
+                // YouTube API
+                frames[i].contentWindow.postMessage(JSON.stringify({
+                    "event": "command",
+                    "func": "setVolume",
+                    "args": [volPercent]
+                }), '*');
+
+                // Twitch API (eles usam setVolume(0.5))
+                // Nota: Twitch embed pode ter restrições, mas tentamos mesmo assim
+            } catch (e) { }
+        }
+    }
+});
+
 function extractYouTubeId(url) {
     if (!url) return null;
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
