@@ -75,18 +75,22 @@
                     </div>
                 </div>
 
-                <div class="actions-grid">
-                    <button class="btn btn-stop" onclick="action('pause')">
+                <div class="actions-grid" style="grid-template-columns: 1fr 1fr; grid-template-rows: auto auto;">
+                    <!-- Controles de Playback -->
+                    <button class="btn btn-stop" onclick="action('pause')" style="grid-column: 1">
                         <i class="fas fa-pause"></i> PAUSAR
                     </button>
-                    <button class="btn btn-stop" onclick="action('resume')">
+                    <button class="btn btn-stop" onclick="action('resume')" style="grid-column: 2">
                         <i class="fas fa-play"></i> RETOMAR
                     </button>
-                    <button class="btn btn-stop" onclick="action('stop')" style="background:rgba(255,0,0,0.2)">
-                        <i class="fas fa-stop"></i> PARAR
+
+                    <!-- Ações Principais -->
+                    <button class="btn btn-stop" onclick="action('stop')"
+                        style="background:rgba(255,0,0,0.2); grid-column: 1">
+                        <i class="fas fa-stop"></i> PARAR TUDO
                     </button>
-                    <button class="btn btn-play" onclick="action('play')">
-                        <i class="fas fa-play"></i> INICIAR NOVO
+                    <button class="btn btn-play" onclick="action('play')" style="grid-column: 2">
+                        <i class="fas fa-play"></i> CARREGAR VÍDEO
                     </button>
                 </div>
             </div>
