@@ -1,13 +1,16 @@
+// V3 - FIXED ENGLISH VERSION - DO NOT TRANSLATE TO PORTUGUESE
+// Este arquivo deve permanecer em inglês para funcionar corretamente.
+
 document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
     const initialUrl = urlParams.get('url');
     if (initialUrl) loadVideo(initialUrl);
 
-    // Verifica volume inicial pela hash
+    // Initial check for volume
     checkHashVolume();
 });
 
-// --- DETECTOR DE MUDANÇA DE HASH (VOLUME) ---
+// DETECTOR DE MUDANÇA DE VOLUME (HASH)
 window.addEventListener("hashchange", function () {
     checkHashVolume();
 });
@@ -17,7 +20,9 @@ function checkHashVolume() {
     var hash = window.location.hash.substring(1);
     if (hash.startsWith('vol=')) {
         var volPercent = parseInt(hash.split('=')[1]);
-        setVolume(volPercent);
+        if (!isNaN(volPercent)) {
+            setVolume(volPercent);
+        }
     }
 }
 
@@ -46,14 +51,13 @@ function loadVideo(url) {
     display.innerHTML = '<div style="color:white; font-family:sans-serif; height:100%; display:flex; align-items:center; justify-content:center;">Carregando Player...</div>';
 
     const youtubeId = extractYouTubeId(url);
-    const vimeoId = extractVimeoId(url);
     const twitchChannel = extractTwitchChannel(url);
 
     // --- YOUTUBE NO-COOKIE ---
     if (youtubeId) {
         display.innerHTML = `
             <iframe 
-                src="https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&controls=0&disablekb=1&rel=0&iv_load_policy=3&modestbranding=1&loop=1&playlist=${youtubeId}&enablejsapi=1&origin=https://www.youtube.com" 
+                src="https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&controls=0&disablekb=1&rel=0&iv_load_policy=3&modestbranding=1&loop=1&playlist=${youtubeId}&enablejsapi=1&origin=${window.location.origin}" 
                 width="100%" 
                 height="100%" 
                 frameborder="0" 
@@ -85,9 +89,7 @@ function extractYouTubeId(url) {
     const match = url.match(regExp);
     return (match && match[2].length === 11) ? match[2] : null;
 }
-function extractVimeoId(url) { // Mantido por compatibilidade
-    return null;
-}
+function extractVimeoId(url) { return null; }
 function extractTwitchChannel(url) {
     if (!url) return null;
     const regExp = /twitch\.tv\/([a-zA-Z0-9_]+)/;
