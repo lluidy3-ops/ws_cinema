@@ -111,7 +111,12 @@ function playVideo() { action('play'); }
 function sendAction(type) { action(type); }
 
 function updateVolume(val) {
+    console.log("Volume alterado para: " + val);
     const screen = window.currentScreen || "Cinema";
+
+    // Atualiza visual (garantia)
+    $("#volume-value").text(val + "%");
+
     $.post(`https://${resourceName}/action`, JSON.stringify({
         type: 'volume',
         screen: screen,
