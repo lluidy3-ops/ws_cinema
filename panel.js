@@ -43,8 +43,6 @@ function action(type) {
         setTimeout(() => $(".btn-play").css("transform", ""), 100);
     }
 
-    console.log(`[PANEL.JS] Enviando ação: ${type} | Screen: ${screen} | URL: ${url}`); // DEBUG
-
     $.post(`https://${resourceName}/action`, JSON.stringify({
         type: type,
         screen: screen,
@@ -60,3 +58,12 @@ function closePanel() {
 // Wrapper Functions para o novo HTML
 function playVideo() { action('play'); }
 function sendAction(type) { action(type); }
+
+function updateVolume(val) {
+    const screen = window.currentScreen || "Cinema";
+    $.post(`https://${resourceName}/action`, JSON.stringify({
+        type: 'volume',
+        screen: screen,
+        volume: parseInt(val)
+    }));
+}

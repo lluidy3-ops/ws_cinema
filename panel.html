@@ -75,21 +75,27 @@
                     </div>
                 </div>
 
-                <div class="actions-grid" style="grid-template-columns: 1fr 1fr; grid-template-rows: auto auto;">
-                    <!-- Controles de Playback -->
-                    <button class="btn btn-stop" onclick="action('pause')" style="grid-column: 1">
-                        <i class="fas fa-pause"></i> PAUSAR
-                    </button>
-                    <button class="btn btn-stop" onclick="action('resume')" style="grid-column: 2">
-                        <i class="fas fa-play"></i> RETOMAR
-                    </button>
+                <div class="input-wrapper" style="margin-bottom: 25px;">
+                    <label>VOLUME DA SALA</label>
+                    <div
+                        style="display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="opacity:0.5">
+                            <path
+                                d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zm-4 0h-2.5l-5 5v6h5l5 5v-16zm2 16h-1.5l-3.5-3.5h-4v-5h4l3.5-3.5h1.5v12z" />
+                        </svg>
+                        <input type="range" id="volume-slider" min="0" max="100" value="100"
+                            style="width: 100%; cursor: pointer; accent-color: #ff0040;"
+                            onchange="updateVolume(this.value)" oninput="$('#volume-value').text(this.value + '%')">
+                        <span id="volume-value"
+                            style="width: 40px; text-align: right; font-size: 12px; font-weight: 700;">100%</span>
+                    </div>
+                </div>
 
-                    <!-- Ações Principais -->
-                    <button class="btn btn-stop" onclick="action('stop')"
-                        style="background:rgba(255,0,0,0.2); grid-column: 1">
+                <div class="actions-grid">
+                    <button class="btn btn-stop" onclick="action('stop')" style="background:rgba(255,0,0,0.2)">
                         <i class="fas fa-stop"></i> PARAR TUDO
                     </button>
-                    <button class="btn btn-play" onclick="action('play')" style="grid-column: 2">
+                    <button class="btn btn-play" onclick="action('play')">
                         <i class="fas fa-play"></i> CARREGAR VÍDEO
                     </button>
                 </div>
