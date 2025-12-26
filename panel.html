@@ -39,24 +39,36 @@
         <div class="content">
             <!-- Seção de Telas -->
             <div class="section-title">SELECIONE A TELA</div>
-            <div class="screens-grid">
-                <div class="screen-card active" data-screen="Cinema" onclick="selectScreen('Cinema', this)">
-                    <div class="screen-preview cinema-preview">
-                        <div class="status-badge" id="badge-Cinema">OFFLINE</div>
-                    </div>
-                    <div class="screen-info">
-                        <span class="screen-name">Sala Principal</span>
-                        <span class="screen-desc">Projetor 4K - Audio 7.1</span>
+            <div id="screens-section" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="screen-card active" data-screen="Cinema" onclick="selectScreen('Cinema')"
+                    style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; cursor: pointer; position: relative;">
+                    <span class="status-badge" id="badge-Cinema"
+                        style="position: absolute; top: 15px; right: 15px; padding: 4px 12px; border-radius: 6px; font-size: 10px; font-weight: 700; background: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.5);">OFFLINE</span>
+                    <div style="display: flex; align-items: center; gap: 20px; margin-top: 10px;">
+                        <svg viewBox="0 0 24 24" width="64" height="64" fill="currentColor" style="opacity: 0.15;">
+                            <path
+                                d="M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3h-2zM8 17H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V7h2v2zm10 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z" />
+                        </svg>
+                        <div style="flex: 1;">
+                            <h3 style="margin: 0; font-size: 16px; font-weight: 700;">Sala Principal</h3>
+                            <p style="margin: 5px 0 0 0; font-size: 11px; opacity: 0.5;">Projetor 4K · Áudio 7.1</p>
+                        </div>
                     </div>
                 </div>
-                <!-- Você pode adicionar mais telas aqui no futuro -->
-                <div class="screen-card" data-screen="Praia" onclick="selectScreen('Praia', this)">
-                    <div class="screen-preview praia-preview">
-                        <div class="status-badge" id="badge-Praia">OFFLINE</div>
-                    </div>
-                    <div class="screen-info">
-                        <span class="screen-name">Telão da Praia</span>
-                        <span class="screen-desc">Área Externa - Del Perro</span>
+
+                <div class="screen-card" data-screen="Praia" onclick="selectScreen('Praia')"
+                    style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; cursor: pointer; position: relative;">
+                    <span class="status-badge" id="badge-Praia"
+                        style="position: absolute; top: 15px; right: 15px; padding: 4px 12px; border-radius: 6px; font-size: 10px; font-weight: 700; background: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.5);">OFFLINE</span>
+                    <div style="display: flex; align-items: center; gap: 20px; margin-top: 10px;">
+                        <svg viewBox="0 0 24 24" width="64" height="64" fill="currentColor" style="opacity: 0.15;">
+                            <path
+                                d="M21 6h-7.59l3.29-3.29L16 2l-4 4-4-4-.71.71L10.59 6H3c-1.1 0-2 .89-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.11-.9-2-2-2zm0 14H3V8h18v12zM9 10v8l7-4z" />
+                        </svg>
+                        <div style="flex: 1;">
+                            <h3 style="margin: 0; font-size: 16px; font-weight: 700;">Telão da Praia</h3>
+                            <p style="margin: 5px 0 0 0; font-size: 11px; opacity: 0.5;">Área Externa · Del Perro</p>
+                        </div>
                     </div>
                 </div>
             </div>

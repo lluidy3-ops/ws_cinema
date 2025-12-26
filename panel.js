@@ -111,7 +111,6 @@ function playVideo() { action('play'); }
 function sendAction(type) { action(type); }
 
 function updateVolume(val) {
-    console.log("Volume alterado para: " + val);
     const screen = window.currentScreen || "Cinema";
 
     // Atualiza visual (garantia)
