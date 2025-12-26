@@ -54,3 +54,7 @@ function closePanel() {
     $("#panel-container").fadeOut(200);
     $.post(`https://${resourceName}/close`, JSON.stringify({}));
 }
+
+// Wrapper Functions para o novo HTML
+function playVideo() { action('play'); }
+function sendAction(type) { action(type); }
