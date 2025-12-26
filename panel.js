@@ -6,18 +6,51 @@ $(document).ready(function () {
     window.currentScreen = "Cinema"; // Padrão
 
     window.addEventListener('message', function (event) {
-        if (event.data.action === 'showTicket') {
+        var item = event.data;
+        // TICKET POPUP
+        if (item.type === 'ticket' || item.action === 'showTicket') {
             var p = document.getElementById("ticket-popup");
             if (p) {
                 p.classList.add("visible");
                 setTimeout(() => p.classList.remove("visible"), 10000);
             }
         }
-
-        if (event.data.action === 'open') {
-            $("#panel-container").fadeIn(300);
+        // PAINEL OPEN
+        else if (item.type === 'open') {
+            $("#panel-container").fadeIn(300).css('display', 'flex');
+            if (item.status) {
+                updateBadge("Cinema", item.status.Cinema);
+                updateBadge("Praia", item.status.Praia);
+            }
+            if (item.volumes) {
+                window.screenVolumes = item.volumes; // Salvar para troca de tela
+                const currentVol = item.volumes[window.currentScreen] || 100;
+                $("#volume-slider").val(currentVol);
+                $("#volume-value").text(currentVol + "%");
+            }
+        }
+        // PAINEL CLOSE
+        else if (item.type === 'close') {
+            closePanel();
         }
     });
+
+    function updateBadge(screen, isActive) {
+        const el = $(`#badge-${screen}`);
+        if (isActive) {
+            el.text("ONLINE").css({
+                "background": "rgba(0, 255, 128, 0.2)",
+                "color": "#00ff80",
+                "border": "1px solid rgba(0, 255, 128, 0.3)"
+            });
+        } else {
+            el.text("OFFLINE").css({
+                "background": "rgba(255, 255, 255, 0.1)",
+                "color": "rgba(255, 255, 255, 0.5)",
+                "border": "none"
+            });
+        }
+    }
 
     document.onkeyup = function (data) {
         if (data.which == 27) { // ESC
@@ -31,6 +64,13 @@ function selectScreen(name, element) {
     window.currentScreen = name;
     $(".screen-card").removeClass("active");
     $(element).addClass("active");
+
+    // Atualizar Slider com Volume da Tela Selecionada
+    if (window.screenVolumes) {
+        const vol = window.screenVolumes[name] || 100;
+        $("#volume-slider").val(vol);
+        $("#volume-value").text(vol + "%");
+    }
 }
 
 function action(type) {

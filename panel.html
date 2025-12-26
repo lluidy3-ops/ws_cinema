@@ -40,9 +40,9 @@
             <!-- Seção de Telas -->
             <div class="section-title">SELECIONE A TELA</div>
             <div class="screens-grid">
-                <div class="screen-card active" onclick="selectScreen('Cinema', this)">
+                <div class="screen-card active" data-screen="Cinema" onclick="selectScreen('Cinema', this)">
                     <div class="screen-preview cinema-preview">
-                        <div class="status-badge">ONLINE</div>
+                        <div class="status-badge" id="badge-Cinema">OFFLINE</div>
                     </div>
                     <div class="screen-info">
                         <span class="screen-name">Sala Principal</span>
@@ -50,9 +50,9 @@
                     </div>
                 </div>
                 <!-- Você pode adicionar mais telas aqui no futuro -->
-                <div class="screen-card" onclick="selectScreen('Praia', this)">
+                <div class="screen-card" data-screen="Praia" onclick="selectScreen('Praia', this)">
                     <div class="screen-preview praia-preview">
-                        <div class="status-badge">ONLINE</div>
+                        <div class="status-badge" id="badge-Praia">OFFLINE</div>
                     </div>
                     <div class="screen-info">
                         <span class="screen-name">Telão da Praia</span>
