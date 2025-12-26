@@ -90,23 +90,36 @@
                             style="width: 40px; text-align: right; font-size: 12px; font-weight: 700;">100%</span>
                     </div>
                 </div>
-                <div class="actions-grid" style="grid-template-columns: 1fr 1fr; grid-template-rows: auto auto;">
-                    <!-- Controles de Playback -->
-                    <button class="btn btn-stop" onclick="action('pause')" style="grid-column: 1">
-                        <i class="fas fa-pause"></i> PAUSAR
-                    </button>
-                    <button class="btn btn-stop" onclick="action('resume')" style="grid-column: 2">
-                        <i class="fas fa-play"></i> RETOMAR
-                    </button>
-
-                    <!-- Ações Principais -->
-                    <button class="btn btn-stop" onclick="action('stop')"
-                        style="background:rgba(255,0,0,0.2); grid-column: 1">
+                <div class="actions-grid" style="grid-template-columns: 1fr 1fr;">
+                    <button class="btn btn-stop" onclick="action('stop')" title="Para a reprodução do vídeo atual"
+                        style="background:rgba(255,0,0,0.2)">
                         <i class="fas fa-stop"></i> PARAR
                     </button>
-                    <button class="btn btn-play" onclick="action('play')" style="grid-column: 2">
-                        <i class="fas fa-play"></i> INICIAR NOVO
+                    <button class="btn btn-play" onclick="action('play')" title="Carrega e inicia um novo vídeo">
+                        <i class="fas fa-play"></i> CARREGAR VÍDEO
                     </button>
+                </div>
+
+                <div
+                    style="margin-top: 25px; padding: 15px; background: rgba(255,255,255,0.02); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" style="opacity:0.7">
+                                <path
+                                    d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z" />
+                            </svg>
+                            <div>
+                                <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.3px;">ILUMINAÇÃO DA
+                                    SALA</div>
+                                <div style="font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 2px;">Controle as
+                                    luzes do cinema</div>
+                            </div>
+                        </div>
+                        <label class="toggle-switch" title="Clique para ligar/desligar as luzes">
+                            <input type="checkbox" id="light-toggle" onchange="action('lights')">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
                 </div>
             </div>
 

@@ -81,6 +81,13 @@ function action(type) {
     if (type === 'play') {
         $(".btn-play").css("transform", "scale(0.95)");
         setTimeout(() => $(".btn-play").css("transform", ""), 100);
+        // Atualiza badge para ONLINE
+        updateBadge(screen, true);
+    }
+
+    if (type === 'stop') {
+        // Atualiza badge para OFFLINE
+        updateBadge(screen, false);
     }
 
     $.post(`https://${resourceName}/action`, JSON.stringify({
