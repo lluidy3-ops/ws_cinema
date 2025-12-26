@@ -10,7 +10,7 @@ $(document).ready(function () {
             var p = document.getElementById("ticket-popup");
             if (p) {
                 p.classList.add("visible");
-                setTimeout(() => p.classList.remove("visible"), 5000);
+                setTimeout(() => p.classList.remove("visible"), 10000);
             }
         }
 
