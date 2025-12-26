@@ -3,24 +3,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const initialUrl = urlParams.get('url');
     if (initialUrl) loadVideo(initialUrl);
 
-    // INICIALIZA O VOLUME ASSIM QUE CARREGA
+    // Verifica volume inicial pela hash
     checkHashVolume();
 });
 
-// --- O SEGREDO: DETECTOR DE MUDANÇA DE HASH ---
-// Quando o FiveM muda a URL para ...#vol=50, isso dispara e muda o volume
-window.addEventListener("hashchange", function() {
+// --- DETECTOR DE MUDANÇA DE HASH (VOLUME) ---
+window.addEventListener("hashchange", function () {
     checkHashVolume();
 });
 
 function checkHashVolume() {
     // Lê o que está depois do # (ex: #vol=50)
-    var hash = window.location.hash.substring(1); 
-    if(hash.startsWith('vol=')) {
+    var hash = window.location.hash.substring(1);
+    if (hash.startsWith('vol=')) {
         var volPercent = parseInt(hash.split('=')[1]);
-        if (!isNaN(volPercent)) {
-            setVolume(volPercent);
-        }
+        setVolume(volPercent);
     }
 }
 
@@ -39,7 +36,7 @@ function setVolume(volPercent) {
                 "func": "setVolume",
                 "args": [volPercent]
             }), '*');
-        } catch (e) {}
+        } catch (e) { }
     }
 }
 
@@ -49,6 +46,7 @@ function loadVideo(url) {
     display.innerHTML = '<div style="color:white; font-family:sans-serif; height:100%; display:flex; align-items:center; justify-content:center;">Carregando Player...</div>';
 
     const youtubeId = extractYouTubeId(url);
+    const vimeoId = extractVimeoId(url);
     const twitchChannel = extractTwitchChannel(url);
 
     // --- YOUTUBE NO-COOKIE ---
@@ -87,7 +85,9 @@ function extractYouTubeId(url) {
     const match = url.match(regExp);
     return (match && match[2].length === 11) ? match[2] : null;
 }
-function extractVimeoId(url) { return null; }
+function extractVimeoId(url) { // Mantido por compatibilidade
+    return null;
+}
 function extractTwitchChannel(url) {
     if (!url) return null;
     const regExp = /twitch\.tv\/([a-zA-Z0-9_]+)/;
