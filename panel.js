@@ -6,7 +6,15 @@ $(document).ready(function () {
     window.currentScreen = "Cinema"; // Padrão
 
     window.addEventListener('message', function (event) {
-        if (event.data.action === "open") {
+        if (event.data.action === 'showTicket') {
+            var p = document.getElementById("ticket-popup");
+            if (p) {
+                p.classList.add("visible");
+                setTimeout(() => p.classList.remove("visible"), 5000);
+            }
+        }
+
+        if (event.data.action === 'open') {
             $("#panel-container").fadeIn(300);
         }
     });
